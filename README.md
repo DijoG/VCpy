@@ -72,8 +72,8 @@ vcpy-monthly --year 2024 --start-month 3 --end-month 9 --export-ndvi --output-pa
 The package comes with sensible defaults for your setup:
 ```python
 # Authentication
-service_account_email = "vegcov-mailer@YOURPROJECT.iam.gserviceaccount.com"
-service_account_key_file = r"D:\Gergo\GEEpy\json\YOURUSERNAME-YOURAUTHKEY.json"
+service_account_email = "vegcov-mailer@yourproject.iam.gserviceaccount.com"
+service_account_key_file = r"D:\Gergo\GEEpy\json\yourproject-yourauthkey.json"
 
 # Output paths
 output_base_path = r"D:\Gergo\GEEpy\output"
@@ -85,8 +85,8 @@ acquisition_window = 21  # Bi-weekly only
 max_workers = 4
 
 # Spatial assets
-metro_asset = "projects/your-project/assets/METRO"  # A simplified geometry of aoi_asset (TRUE geomtery)
-aoi_asset = "projects/your-project/assets/Metropol" # Can equal to metro_asset
+metro_asset = "projects/yourproject/assets/METRO"  # A simplified geometry of aoi_asset (TRUE geomtery)
+aoi_asset = "projects/yourproject/assets/Metropol" # Can equal to metro_asset
 
 # Export parameters
 crs = 'EPSG:32638'
@@ -99,8 +99,8 @@ You can overwrite any default parameter when calling the functions:
 ```python
 # Full customization example
 biweek_VCpy(
-    service_account_email="your-email@project.iam.gserviceaccount.com",
-    service_account_key_file="/path/to/credentials.json",
+    service_account_email="your-email@yourproject.iam.gserviceaccount.com",
+    service_account_key_file="/path/to/yourcredentials.json",
     output_path="/custom/output/path",
     year=2025,
     months=12,
@@ -109,7 +109,7 @@ biweek_VCpy(
     acquisition_window=21,
     max_workers=8,
     export_ndvi=True,
-    metro_asset="projects/your-project/assets/your-region",
+    metro_asset="projects/yourproject/assets/your-region",
     crs='EPSG:4326',
     scale=20
 )
@@ -176,7 +176,7 @@ month_VCpy(
 biweek_VCpy(
     year=2025,
     months=6,               # January-June
-    metro_asset="projects/your-project/assets/custom-region"
+    metro_asset="projects/yourproject/assets/custom-region"
 )
 ```
 ### Example 4: Batch Processing Multiple Years
