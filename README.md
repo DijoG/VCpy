@@ -140,7 +140,7 @@ Generates a single multi-band TIFF file:
 ```text
 output/monthly/
 ├── VC_Annual_2025_thr_0_15_01_12.tif      # 12-band VC composite (one band per month)
-├── NDVI_Annual_2025_thr_0_15_01_12.tif    # 12-band NDVI composite (if export_ndvi = True)
+├── NDVI_Annual_2025_thr_0_15_01_12.tif    # 12-band NDVI composite (if export_ndvi=True)
 └── 2025_Monthly_VC_NDVI_Metadata.csv      # Combined metadata
 ```
 
