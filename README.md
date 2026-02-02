@@ -158,7 +158,7 @@ Both modes generate CSV metadata containing:
 ### Example 1: Quick analysis
 ```python
 import ee
-from VCpy import biweek_VCpy
+from VCpy import biweek_VCpy, month_VCpy
 # Analyze 2024 data
 biweek_VCpy(year=2024)
 month_VCpy(year=2024)
