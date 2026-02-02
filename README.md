@@ -92,6 +92,7 @@ aoi_asset = "projects/yourproject/assets/Metropol" # Define ONLY if Vegatation C
                                                    # metro_asset. 
 
 # Export parameters
+export_ndvi = False
 crs = 'EPSG:32638'
 scale = 10
 dtype = 'float32'
