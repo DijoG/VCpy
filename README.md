@@ -26,7 +26,7 @@ pip install -e .
 ```
 ### Dependencies
 
-The package auromatically installs:
+The package automatically installs:
 
 - earthengine-api (Google Earth Engine Python API)
 - geedim (Enhanced Earth Engine image download capabilities)
@@ -85,8 +85,11 @@ acquisition_window = 21  # Bi-weekly only
 max_workers = 4
 
 # Spatial assets
-metro_asset = "projects/yourproject/assets/METRO"  # A simplified geometry of aoi_asset (TRUE geomtery)
-aoi_asset = "projects/yourproject/assets/Metropol" # Can equal to metro_asset
+metro_asset = "projects/yourproject/assets/METRO"  # A simplified geometry of aoi_asset (geometry)
+aoi_asset = "projects/yourproject/assets/Metropol" # Define ONLY if Vegatation Coverage percentage 
+                                                   # calculation should use a different geometry from 
+                                                   # metro_asset. Otherwise, it automatically uses 
+                                                   # metro_asset. 
 
 # Export parameters
 crs = 'EPSG:32638'
