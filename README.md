@@ -61,8 +61,8 @@ vcpy-biweekly --year 2025 --months 12
 vcpy-monthly --year 2025 --start-month 1 --end-month 12
 
 # With custom parameters
-vcpy-biweekly --year 2024 --months 6 --ndvi-threshold 0.2 --cloud-cover-max 20
-vcpy-monthly --year 2024 --start-month 3 --end-month 9 --export-ndvi --output-path ./vc_output
+vcpy-biweekly --year 2024 --months 6 --ndvi-threshold 0.2 --export-ndvi --cloud-cover-max 20
+vcpy-monthly --year 2024 --start-month 3 --end-month 9 --output-path ./vc_output
 ```
 
 ## Configuration
