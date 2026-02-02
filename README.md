@@ -7,13 +7,13 @@ A powerful Python package for Vegetation Cover analysis using Google Earth Engin
 
 ## Features
 
-📅 Bi-weekly VC analysis: Process vegetation cover data in 15-day intervals
-📅 Monthly VC analysis: Generate monthly vegetation cover composites
-⚡ Parallel processing: Utilize multiple workers for faster data acquisition
-📊 Metadata export: Automatically export CSV metadata with source image information
-🌐 Google Earth Engine integration: Built on top of the official Earth Engine API
-☁️ Cloud masking: Built-in cloud masking for Sentinel-2 imagery
-🔧 Configurable parameters: Customize NDVI thresholds, cloud cover limits, and more
+- 📅 Bi-weekly VC analysis: Process vegetation cover data in 15-day intervals
+- 📅 Monthly VC analysis: Generate monthly vegetation cover composites
+- ⚡ Parallel processing: Utilize multiple workers for faster data acquisition
+- 📊 Metadata export: Automatically export CSV metadata with source image information
+- 🌐 Google Earth Engine integration: Built on top of the official Earth Engine API
+- ☁️ Cloud masking: Built-in cloud masking for Sentinel-2 imagery
+- 🔧 Configurable parameters: Customize NDVI thresholds, cloud cover limits, and more
 
 ## Installation
 ```bash
@@ -119,7 +119,7 @@ biweek_VCpy(
 ### Bi-weekly Mode
 
 Generates 2-band TIFF files for each 2-month period: 
-
+```text
 output/biweekly/
 ├── 2025_BiWeekly_VC_01_02.tif      # January 1-15 + January 16-31
 ├── 2025_BiWeekly_VC_03_04.tif      # February 1-15 + February 16-28/29
@@ -128,14 +128,16 @@ output/biweekly/
 ├── 2025_BiWeekly_NDVI_01_02.tif    # Only if export_ndvi=True
 ├── 2025_BiWeekly_NDVI_03_04.tif    # Only if export_ndvi=True
 └── 2025_BiWeekly_VC_NDVI_Metadata.csv
+```
 
 ### Monthly Mode
 
 Generates a single multi-band TIFF file:
-
+```text
 output/monthly/
 ├── VC_Annual_2025_thr_0_15_01_12.tif  # 12-band TIFF (one band per month)
 └── 2025_Monthly_VC_Metadata.csv
+```
 
 ### Metadata Files
 
