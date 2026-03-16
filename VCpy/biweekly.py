@@ -130,7 +130,10 @@ class BiweeklyProcessor(VCProcessor):
         print(f'📅 Processing {months} months ({total_periods} bi-weekly periods)')
         print(f'📅 Acquisition window: {self.config["acquisition_window"]} days')
         print(f'⚡ Parallel workers: {self.config["max_workers"]}')
-        print(f'📊 NDVI Export: {"ENABLED" if self.config["export_ndvi"] else "DISABLED (VC only)"}')
+        
+        # FIXED: Line 94 - Restructured to avoid nested quotes
+        ndvi_status = "ENABLED" if self.config["export_ndvi"] else "DISABLED (VC only)"
+        print(f'📊 NDVI Export: {ndvi_status}')
         
         return periods
     
@@ -236,6 +239,7 @@ class BiweeklyProcessor(VCProcessor):
                     completed += 1
                     
                     qa = "✅" if result['image_count'] > 0 else "⚠️"
+                    # This line is correct - using double quotes outside, single quotes inside
                     print(f"  {qa} Period {period_num}: {result['label']} ({result['image_count']} images)")
                     
                 except Exception as e:
@@ -313,8 +317,8 @@ class BiweeklyProcessor(VCProcessor):
                 # Create combined VC image
                 vc_combined = ee.ImageCollection(vc_images).toBands().rename(labels).clip(self.metro)
                 
-                # Export VC image
-                vc_filename = f'{self.config["year"]}_BiWeekly_VC_{periods}.tif'
+                # FIXED: Line 231 - Changed to use double quotes outside, single quotes inside
+                vc_filename = f"{self.config['year']}_BiWeekly_VC_{periods}.tif"
                 if self.export_with_geedim(vc_combined, vc_filename):
                     successful_exports += 1
                 
@@ -324,7 +328,8 @@ class BiweeklyProcessor(VCProcessor):
                 if self.config['export_ndvi']:
                     ndvi_images = [r['ndvi_image'] for r in pair_results]
                     ndvi_combined = ee.ImageCollection(ndvi_images).toBands().rename(labels).clip(self.metro)
-                    ndvi_filename = f'{self.config["year"]}_BiWeekly_NDVI_{periods}.tif'
+                    # FIXED: Line 238 - Changed to use double quotes outside, single quotes inside
+                    ndvi_filename = f"{self.config['year']}_BiWeekly_NDVI_{periods}.tif"
                     if self.export_with_geedim(ndvi_combined, ndvi_filename):
                         successful_exports += 1
                     time.sleep(1)

@@ -130,7 +130,9 @@ class MonthlyProcessor(VCProcessor):
             })
         
         print(f"📅 Processing {len(periods)} months ({self.config['start_month']} to {self.config['end_month']})")
-        print(f'📊 NDVI Export: {"ENABLED" if self.config["export_ndvi"] else "DISABLED (VC only)"}')
+        # FIXED: Line with potential quote issue - using intermediate variable
+        ndvi_status = "ENABLED" if self.config["export_ndvi"] else "DISABLED (VC only)"
+        print(f'📊 NDVI Export: {ndvi_status}')
         return periods
     
     def process_month(self, month_info: Dict[str, Any]) -> Dict[str, Any]:
@@ -316,7 +318,10 @@ class MonthlyProcessor(VCProcessor):
             
             print(f"\n📤 Exporting VC annual composite...")
             print(f"  Filename: {vc_filename}")
-            print(f"  Note: This may take several minutes (contains {self.config['end_month'] - self.config['start_month'] + 1} bands)")
+            
+            # FIXED: Line 319 - Changed to use single quotes inside double-quoted f-string
+            num_bands = self.config['end_month'] - self.config['start_month'] + 1
+            print(f"  Note: This may take several minutes (contains {num_bands} bands)")
             
             vc_success = self.export_with_geedim(annual_vc, vc_filename)
         
