@@ -29,8 +29,9 @@ def initialize_earth_engine(config: Dict[str, Any]) -> bool:
             config['service_account_key_file']
         )
         ee.Initialize(credentials)
+        # geedim will use the already initialized Earth Engine session
         print(f"✅ Initialized with service account: {config['service_account_email']}")
-        print(f"✅ Geedim accessors enabled")
+        print(f"✅ Earth Engine ready")
         return True
     except Exception as e:
         print(f"❌ Earth Engine initialization failed: {str(e)}")
@@ -51,17 +52,32 @@ def export_with_geedim(image, filename: str, region, config: Dict[str, Any]) -> 
     """
     full_path = os.path.join(config['output_path'], filename)
     
+    # If file already exists, remove it or handle it gracefully
+    if os.path.exists(full_path):
+        print(f"  ⚠️ File {filename} already exists, overwriting...")
+        try:
+            os.remove(full_path)
+        except:
+            # If we can't remove it, return True since file exists
+            file_size = os.path.getsize(full_path) / (1024 * 1024)
+            print(f'  ✅ File already exists: {filename} ({file_size:.1f} MB)')
+            return True
+    
     try:
-        # Prepare image for export
-        prep_im = image.gd.prepareForExport(
-            crs=config['crs'],
-            region=region,
+        # Convert the region to GeoJSON-like dictionary
+        region_geojson = region.getInfo()
+        
+        # Create a MaskedImage object first
+        gd_image = geedim.MaskedImage(image)
+        
+        # Then download it
+        gd_image.download(
+            full_path,
+            region=region_geojson,
             scale=config['scale'],
+            crs=config['crs'],
             dtype=config['dtype']
         )
-        
-        # Download to GeoTIFF
-        prep_im.gd.toGeoTIFF(full_path)
         
         if os.path.exists(full_path):
             file_size = os.path.getsize(full_path) / (1024 * 1024)
@@ -72,9 +88,15 @@ def export_with_geedim(image, filename: str, region, config: Dict[str, Any]) -> 
             return False
             
     except Exception as e:
-        print(f'  ❌ Export failed for {filename}: {str(e)[:100]}')
-        return False
-
+        # If the error is about file existing, and the file actually exists, consider it a success
+        if "exists" in str(e).lower() and os.path.exists(full_path):
+            file_size = os.path.getsize(full_path) / (1024 * 1024)
+            print(f'  ✅ File already exists: {filename} ({file_size:.1f} MB)')
+            return True
+        else:
+            print(f'  ❌ Export failed for {filename}: {str(e)}')
+            return False
+            
 def maskS2clouds(image):
     """Cloud masking for Sentinel-2"""
     qa = image.select('QA60')

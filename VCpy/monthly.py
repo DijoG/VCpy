@@ -21,7 +21,7 @@ def month_VCpy(
     ndvi_threshold: float = 0.15,
     cloud_cover_max: int = 15,
     max_workers: int = 4,
-    export_ndvi: bool = False,  # NEW PARAMETER
+    export_ndvi: bool = False,
     metro_asset: str = None,
     aoi_asset: str = None,
     crs: str = 'EPSG:32638',
@@ -82,7 +82,7 @@ def month_VCpy(
         'ndvi_threshold': ndvi_threshold,
         'cloud_cover_max': cloud_cover_max,
         'max_workers': max_workers,
-        'export_ndvi': export_ndvi,  # Store in config
+        'export_ndvi': export_ndvi,
         'crs': crs,
         'scale': scale,
         'dtype': dtype,
@@ -130,7 +130,6 @@ class MonthlyProcessor(VCProcessor):
             })
         
         print(f"📅 Processing {len(periods)} months ({self.config['start_month']} to {self.config['end_month']})")
-        # FIXED: Line with potential quote issue - using intermediate variable
         ndvi_status = "ENABLED" if self.config["export_ndvi"] else "DISABLED (VC only)"
         print(f'📊 NDVI Export: {ndvi_status}')
         return periods
@@ -251,6 +250,75 @@ class MonthlyProcessor(VCProcessor):
             result['ndvi_metadata'] = ndvi_metadata
         
         return result
+
+    def process_all_months(self, month_infos: List[Dict]) -> List[Dict]:
+        """Process all months in parallel"""
+        print(f"\n🔄 Processing {len(month_infos)} months in parallel...")
+        start_time = time.time()
+        
+        results = []
+        
+        with concurrent.futures.ThreadPoolExecutor(max_workers=self.config['max_workers']) as executor:
+            future_to_month = {
+                executor.submit(self.process_month, month_info): month_info['month']
+                for month_info in month_infos
+            }
+            
+            completed = 0
+            for future in concurrent.futures.as_completed(future_to_month):
+                month_num = future_to_month[future]
+                try:
+                    result = future.result()
+                    results.append(result)
+                    completed += 1
+                    
+                    # Show progress
+                    if result['image_count'] > 0:
+                        print(f"  ✅ Month {month_num}: {result['label']} ({result['image_count']} images, {result['coverage_percent']:.1f}% VC)")
+                    else:
+                        print(f"  ⚠️ Month {month_num}: {result['label']} (no images)")
+                        
+                except Exception as e:
+                    print(f"  ❌ Month {month_num} failed: {str(e)[:100]}")
+                    # Create placeholder for failed month with metadata
+                    label = f"{self.config['year']}-{month_num:02d}"
+                    metadata = {
+                        'Year': self.config['year'],
+                        'Month': label,
+                        'DataType': 'VC',
+                        'ImageCount': 0,
+                        'CoveragePercent': 0,
+                        'VC_Filename': f'VC_{label}_thr_{str(self.config["ndvi_threshold"]).replace(".", "_")}',
+                        'Threshold': self.config['ndvi_threshold'],
+                        'CloudCoverMax': self.config['cloud_cover_max'],
+                        'Source_Images': '',
+                        'Processing_Date': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    }
+                    
+                    placeholder = {
+                        'month': month_num,
+                        'label': label,
+                        'vc_mosaic': ee.Image.constant(0).rename('vc').clip(self.metro).rename(label),
+                        'image_count': 0,
+                        'coverage_percent': 0,
+                        'source_images': [],
+                        'success': False,
+                        'metadata': metadata
+                    }
+                    if self.config['export_ndvi']:
+                        placeholder['ndvi_mosaic'] = ee.Image.constant(-9999).rename('ndvi').clip(self.metro).rename(label)
+                        ndvi_metadata = metadata.copy()
+                        ndvi_metadata['DataType'] = 'NDVI_mean'
+                        ndvi_metadata['NDVI_Filename'] = f'NDVI_{label}_thr_{str(self.config["ndvi_threshold"]).replace(".", "_")}'
+                        placeholder['ndvi_metadata'] = ndvi_metadata
+                    
+                    results.append(placeholder)
+        
+        results.sort(key=lambda x: x['month'])
+        elapsed_time = time.time() - start_time
+        print(f"\n✅ Parallel processing completed in {elapsed_time:.1f} seconds")
+        
+        return results
     
     def create_annual_composite(self, results: List[Dict]) -> tuple:
         """Create annual composites from monthly mosaics - now returns both VC and NDVI if enabled"""
@@ -319,7 +387,6 @@ class MonthlyProcessor(VCProcessor):
             print(f"\n📤 Exporting VC annual composite...")
             print(f"  Filename: {vc_filename}")
             
-            # FIXED: Line 319 - Changed to use single quotes inside double-quoted f-string
             num_bands = self.config['end_month'] - self.config['start_month'] + 1
             print(f"  Note: This may take several minutes (contains {num_bands} bands)")
             
@@ -365,21 +432,34 @@ class MonthlyProcessor(VCProcessor):
             metadata_filename += "_NDVI"
         metadata_filename += "_Metadata.csv"
         
-        # Collect all metadata
-        all_metadata = []
-        for result in results:
-            if 'metadata' in result:
-                all_metadata.append(result['metadata'])
-                if self.config['export_ndvi'] and 'ndvi_metadata' in result:
-                    all_metadata.append(result['ndvi_metadata'])
-        
-        metadata_success = False
-        if all_metadata:
-            metadata_success = self.export_metadata(all_metadata, metadata_filename)
+        metadata_success = self.export_metadata(results, metadata_filename)
         
         # Step 5: Create and export annual composites
         annual_vc, annual_ndvi = self.create_annual_composite(results)
         vc_success, ndvi_success = self.export_annual_composites(annual_vc, annual_ndvi)
+        
+        # ===== FILE EXISTENCE CHECK =====
+        # Also check if file actually exists (fix for false negative)
+        vc_file_exists = False
+        if annual_vc is not None:
+            vc_filename = f'VC_Annual_{self.config["year"]}_thr_{str(self.config["ndvi_threshold"]).replace(".", "_")}'
+            vc_filename += f'_{self.config["start_month"]:02d}_{self.config["end_month"]:02d}.tif'
+            vc_file_path = os.path.join(self.config['output_path'], vc_filename)
+            vc_file_exists = os.path.exists(vc_file_path)
+            if vc_file_exists and not vc_success:
+                print(f"  ✅ File exists despite export flag: {vc_filename}")
+                vc_success = True
+        
+        ndvi_file_exists = False
+        if self.config['export_ndvi'] and annual_ndvi is not None:
+            ndvi_filename = f'NDVI_Annual_{self.config["year"]}_thr_{str(self.config["ndvi_threshold"]).replace(".", "_")}'
+            ndvi_filename += f'_{self.config["start_month"]:02d}_{self.config["end_month"]:02d}.tif'
+            ndvi_file_path = os.path.join(self.config['output_path'], ndvi_filename)
+            ndvi_file_exists = os.path.exists(ndvi_file_path)
+            if ndvi_file_exists and not ndvi_success:
+                print(f"  ✅ NDVI file exists despite export flag: {ndvi_filename}")
+                ndvi_success = True
+        # ===== END OF FILE EXISTENCE CHECK =====
         
         # Step 6: Generate summary
         total_time = time.time() - total_start_time
@@ -418,7 +498,7 @@ class MonthlyProcessor(VCProcessor):
             else:
                 print("\n⚠️ No files were generated")
         
-        # Determine overall success
+        # Determine overall success - now using our corrected values
         success = metadata_success and vc_success
         if self.config['export_ndvi']:
             success = success and ndvi_success

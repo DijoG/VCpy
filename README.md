@@ -62,7 +62,7 @@ vcpy-monthly --year 2025 --start-month 1 --end-month 12
 
 # With custom parameters
 vcpy-biweekly --year 2024 --months 6 --ndvi-threshold 0.2 --export-ndvi --cloud-cover-max 20
-vcpy-monthly --year 2024 --start-month 3 --end-month 9 --output-path ./vc_output
+vcpy-monthly --year 2024 --start-month 3 --end-month 9 --output-path "D:\...\output"
 ```
 
 ## Configuration
