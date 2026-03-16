@@ -69,11 +69,11 @@ vcpy-monthly --year 2024 --start-month 3 --end-month 9 --output-path ./vc_output
 
 ### Default Settings
 
-The package comes with sensible defaults for your setup:
+The package comes with sensible defaults for your setup in `config.py`:
 ```python
 # Authentication
-service_account_email = "vegcov-mailer@yourproject.iam.gserviceaccount.com"
-service_account_key_file = r"D:\Gergo\GEEpy\json\yourproject-yourauthkey.json"
+service_account_email = "vegcov-mailer@yourproject.iam.gserviceaccount.com"        # <--- Change to your service account
+service_account_key_file = r"D:\Gergo\GEEpy\json\yourproject-yourauthkey.json"     # <--- Change to your auth key
 
 # Output paths
 output_base_path = r"D:\Gergo\GEEpy\output"
