@@ -316,7 +316,7 @@ class MonthlyProcessor(VCProcessor):
             
             print(f"\n📤 Exporting VC annual composite...")
             print(f"  Filename: {vc_filename}")
-            print(f"  Note: This may take several minutes (contains {self.config["end_month"] - self.config["start_month"] + 1} bands)")
+            print(f"  Note: This may take several minutes (contains {self.config['end_month'] - self.config['start_month'] + 1} bands)")
             
             vc_success = self.export_with_geedim(annual_vc, vc_filename)
         
