@@ -75,7 +75,7 @@ The package comes with sensible defaults for your setup defined in `config.py`:
 service_account_email = "vegcov-mailer@yourproject.iam.gserviceaccount.com"        # <--- Change to your service account
 service_account_key_file = r"D:\Gergo\GEEpy\json\yourproject-yourauthkey.json"     # <--- Change to your auth key
 
-# Output paths
+# Output path
 output_base_path = r"D:\Gergo\GEEpy\output"
 
 # Processing parameters

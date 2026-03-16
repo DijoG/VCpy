@@ -10,6 +10,9 @@ DEFAULT_CONFIG = {
     # Authentication
     'service_account_email': "vegcov-mailer@ee-dijogergo.iam.gserviceaccount.com",
     'service_account_key_file': r"D:\Gergo\GEEpy\json\ee-dijogergo-c8a021808704.json",
+
+    # Output path
+    'output_base_path': r"D:\Gergo\GEEpy\output",
     
     # Processing parameters (bi-weekly defaults)
     'year': 2025,
@@ -23,7 +26,6 @@ DEFAULT_CONFIG = {
     
     # Export control
     'export_ndvi': False,  # For bi-weekly
-    'output_base_path': r"D:\Gergo\GEEpy\output",
     
     # Spatial assets
     'metro_asset': "projects/ee-dijogergo/assets/METRO",
