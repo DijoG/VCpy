@@ -69,7 +69,7 @@ vcpy-monthly --year 2024 --start-month 3 --end-month 9 --output-path ./vc_output
 
 ### Default Settings
 
-The package comes with sensible defaults for your setup in `config.py`:
+The package comes with sensible defaults for your setup defined in `config.py`:
 ```python
 # Authentication
 service_account_email = "vegcov-mailer@yourproject.iam.gserviceaccount.com"        # <--- Change to your service account
