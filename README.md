@@ -67,14 +67,14 @@ vcpy-monthly --year 2024 --start-month 3 --end-month 9 --output-path "D:\...\out
 
 ## Configuration
 
-### Default Settings
+### Default Settings 
 
-Defaults in `config.py`:
+Some parameters in `config.py` need to be adjusted for CLI usage:
 ```python
 # Authentication 
-# <-- If you use CLI change to your account --->
+# <-- If you use CLI change to your-account --->
 service_account_email: "vegcov-mailer@ee-dijogergo.iam.gserviceaccount.com", 
-# <-- If you use CLI change to your key --->   
+# <-- If you use CLI change path to your-key-file --->   
 service_account_key_file: r"D:\Gergo\GEEpy\json\ee-dijogergo-c8a021808704.json", 
 
 # Output path
@@ -95,6 +95,7 @@ aoi_asset = "projects/yourproject/assets/Metropol" # Define ONLY if Vegatation C
                                                    # metro_asset. 
 
 # Export parameters
+# <-- If you use CLI change to your parameters --->
 export_ndvi = False
 crs = 'EPSG:32638'
 scale = 10
@@ -102,7 +103,7 @@ dtype = 'float32'
 ```
 ### Custom Configuration
 
-You can overwrite any default parameter when calling the functions:
+You can overwrite any default parameter when calling the Python API functions:
 ```python
 # Full customization example
 biweek_VCpy(
