@@ -47,7 +47,7 @@ month_VCpy(
     end_month=12,
     ndvi_threshold=0.15,
     cloud_cover_max=15,
-    output_path="path/to/output"
+    output_path="path\to\output"
 )
 ```
 ### Command Line Interface
@@ -69,22 +69,25 @@ vcpy-monthly --year 2024 --start-month 3 --end-month 9 --output-path "D:\...\out
 
 ### Default Settings
 
-The package comes with sensible defaults for your setup defined in `config.py`:
+Defaults in `config.py`:
 ```python
-# Authentication
-service_account_email: "vegcov-mailer@ee-dijogergo.iam.gserviceaccount.com",
-service_account_key_file: r"D:\Gergo\GEEpy\json\ee-dijogergo-c8a021808704.json", # deactivated
+# Authentication 
+# <-- If you use CLI change to your account --->
+service_account_email: "vegcov-mailer@ee-dijogergo.iam.gserviceaccount.com", 
+# <-- If you use CLI change to your key --->   
+service_account_key_file: r"D:\Gergo\GEEpy\json\ee-dijogergo-c8a021808704.json", 
 
 # Output path
 output_base_path = r"D:\Gergo\GEEpy\output"
 
 # Processing parameters
 ndvi_threshold = 0.15
-cloud_cover_max = 40  # Bi-weekly: 40%, Monthly: 15%
+cloud_cover_max = 40     # Bi-weekly: 40%, Monthly: 15%
 acquisition_window = 21  # Bi-weekly only
 max_workers = 4
 
 # Spatial assets
+# <-- If you use CLI change to your assets --->
 metro_asset = "projects/yourproject/assets/METRO"  # A simplified geometry of aoi_asset (geometry)
 aoi_asset = "projects/yourproject/assets/Metropol" # Define ONLY if Vegatation Coverage percentage 
                                                    # calculation should use a different geometry from 
@@ -122,7 +125,7 @@ biweek_VCpy(
 
 ### Bi-weekly Mode
 
-Generates 2-band TIFF files for each 2-month period: 
+Generates 2-band TIFF files for each month: 
 ```text
 output/biweekly/
 ├── 2025_BiWeekly_VC_01_02.tif      # January 1-15 + January 16-31
@@ -136,7 +139,7 @@ output/biweekly/
 
 ### Monthly Mode
 
-Generates a single multi-band TIFF file:
+Generates a single multi-band TIFF file for a year:
 ```text
 output/monthly/
 ├── VC_Annual_2025_thr_0_15_01_12.tif      # 12-band VC composite (one band per month)
