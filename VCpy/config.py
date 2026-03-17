@@ -16,16 +16,16 @@ DEFAULT_CONFIG = {
     
     # Processing parameters (bi-weekly defaults)
     'year': 2025,
-    'months': 12,  # For bi-weekly: total months to process
-    'start_month': 1,  # For monthly: starting month
-    'end_month': 12,  # For monthly: ending month
+    'months': 12,              # For bi-weekly: total months to process
+    'start_month': 1,          # For monthly: starting month
+    'end_month': 12,           # For monthly: ending month
     'ndvi_threshold': 0.15,
     'cloud_cover_max': 15,
     'acquisition_window': 21,  # For bi-weekly
     'max_workers': 4,
     
     # Export control
-    'export_ndvi': False,  # For bi-weekly
+    'export_ndvi': False,      # For bi-weekly
     
     # Spatial assets
     'metro_asset': "projects/ee-dijogergo/assets/METRO",
