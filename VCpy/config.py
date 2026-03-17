@@ -14,7 +14,7 @@ DEFAULT_CONFIG = {
     # Output path
     'output_base_path': r"D:\Gergo\GEEpy\output",
     
-    # Processing parameters (bi-weekly defaults)
+    # Processing parameters (bi-weekly and monthly defaults)
     'year': 2025,
     'months': 12,              # For bi-weekly: total months to process
     'start_month': 1,          # For monthly: starting month
