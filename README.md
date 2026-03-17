@@ -94,9 +94,11 @@ aoi_asset = "projects/yourproject/assets/Metropol" # Define ONLY if Vegatation C
                                                    # metro_asset. Otherwise, it automatically uses 
                                                    # metro_asset. 
 
+# Export control
+export_ndvi = False      # Bi-weekly only
+
 # Export parameters
 # <-- If you use CLI change to your parameters --->
-export_ndvi = False
 crs = 'EPSG:32638'
 scale = 10
 dtype = 'float32'
