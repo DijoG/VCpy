@@ -88,7 +88,7 @@ python -m VCpy.cli biweekly \
     --output-mode ndvi \
     --start-month 1 \
     --end-month 6 \
-    --output-path "D:/Gergo/GEEpy/output/NDVI"
+    --output-path "path/to/output"
 
 # Monthly with custom geometry
 python -m VCpy.cli monthly \
@@ -106,7 +106,7 @@ python -m VCpy.cli monthly \
 | `--start-month` | Starting month (1-12) | 1 | 1 |
 | `--end-month` | Ending month (1-12) | 12 | 12 |
 | `--output-mode` | `vc`, `ndvi`, or `both` | `vc` | `vc` |
-| `--output-path` | Custom output directory | `D:\Gergo\GEEpy\output` | `D:\Gergo\GEEpy\output` |
+| `--output-path` | Custom output directory | `path\to\output` | `path\to\output` |
 | `--ndvi-threshold` | NDVI threshold for vegetation | 0.15 | 0.15 |
 | `--cloud-cover-max` | Maximum cloud cover % | 15 | 40 |
 | `--acquisition-window` | Days to search for images | N/A | 21 |
