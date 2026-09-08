@@ -124,8 +124,8 @@ python -m VCpy.cli monthly \
 The package comes with sensible defaults for your setup defined in `config.py`:
 ```python
 # Authentication
-service_account_email = "vegcov-mailer@ee-dijogergo.iam.gserviceaccount.com"
-service_account_key_file = r"D:\Gergo\GEEpy\json\ee-dijogergo-c8a021808704.json"
+service_account_email = "your-mailer@ee-yourname.iam.gserviceaccount.com"
+service_account_key_file = r"path\to\ee-yourname-c8a021808704.json"
 
 # Output
 output_base_path = r"D:\Gergo\GEEpy\output"
