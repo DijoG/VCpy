@@ -124,22 +124,23 @@ python -m VCpy.cli monthly \
 The package comes with sensible defaults for your setup defined in `config.py`:
 ```python
 # Authentication
-service_account_email = "your-mailer@ee-yourname.iam.gserviceaccount.com"
-service_account_key_file = r"path\to\ee-yourname-c8a021808704.json"
+service_account_email = "your-service-account@your-project.iam.gserviceaccount.com"
+service_account_key_file = r"path/to/your-service-account-key.json"
 
-# Output
-output_base_path = r"D:\Gergo\GEEpy\output"
-output_mode = 'vc'  # 'vc', 'ndvi', or 'both'
+# Output directory
+output_base_path = r"C:\Users\YourName\GEEpy\output"  # Windows
+# output_base_path = "/home/username/GEEpy/output"    # Linux/Mac
 
 # Processing parameters
+output_mode = 'vc'  # 'vc', 'ndvi', or 'both'
 ndvi_threshold = 0.15
-cloud_cover_max = 40  # Bi-weekly: 40%, Monthly: 15%
-acquisition_window = 21  # Bi-weekly only (days)
+cloud_cover_max = 40
+acquisition_window = 21
 max_workers = 4
 
-# Spatial assets
-metro_asset = "projects/yourproject/assets/METRO"  # Simplified geometry of aoi_asset
-aoi_asset = "projects/yourproject/assets/Metropol" # Optional: Different geometry for coverage % calculation
+# GEE Spatial Assets - REPLACE with YOUR actual assets
+metro_asset = "projects/your-project/assets/METRO"
+aoi_asset = "projects/your-project/assets/AOI"  # Optional
 
 # Export parameters
 crs = 'EPSG:32638'
