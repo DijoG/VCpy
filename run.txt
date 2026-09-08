@@ -1,0 +1,21 @@
+### ---- Navigate to:
+cd D:\Gergo
+cd ..
+
+### ---- Examples:
+# Biweekly NDVI only for January to June 2016
+python -m VCpy.cli biweekly --year 2016 --output-mode ndvi --start-month 1 --end-month 6
+
+# Biweekly both VC and NDVI for full year 2025
+python -m VCpy.cli biweekly --year 2025 --output-mode both --start-month 1 --end-month 12
+
+# Biweekly VC only for summer months with custom acquisition window
+python -m VCpy.cli biweekly --year 2024 --output-mode vc --start-month 6 --end-month 9 --acquisition-window 30
+
+# Monthly NDVI only for specific range
+python -m VCpy.cli monthly --year 2016 --output-mode ndvi --start-month 3 --end-month 9
+
+### ---- Should look:
+(vcpy311) PS D:\Gergo> python -m VCpy.cli monthly --year 2018 --output-mode ndvi --start-month 1 --end-month 12 --output-path "D:/Gergo/GEEpy/output/NDVI"
+
+(vcpy311) PS D:\Gergo> python -m VCpy.cli biweekly --year 2025 --output-mode both --start-month 1 --end-month 12 --output-path "D:/Gergo/GEEpy/output/NDVI"
