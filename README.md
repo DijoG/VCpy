@@ -121,24 +121,24 @@ python -m VCpy.cli monthly \
 
 ### Default Settings
 
-The package comes with sensible defaults for your setup defined in `config.py`:
+The package comes with sensible defaults defined in `config.py`. **You MUST update these with your own credentials and assets:**
+
 ```python
-# Authentication
+# Authentication - UPDATE THESE!
 service_account_email = "your-service-account@your-project.iam.gserviceaccount.com"
 service_account_key_file = r"path/to/your-service-account-key.json"
 
-# Output directory
-output_base_path = r"C:\Users\YourName\GEEpy\output"  # Windows
-# output_base_path = "/home/username/GEEpy/output"    # Linux/Mac
+# Output directory - UPDATE THIS!
+output_base_path = r"C:\Users\YourName\GEEpy\output"
 
-# Processing parameters
+# Processing parameters (adjust as needed)
 output_mode = 'vc'  # 'vc', 'ndvi', or 'both'
 ndvi_threshold = 0.15
-cloud_cover_max = 40
-acquisition_window = 21
+cloud_cover_max = 40  # Bi-weekly: 40%, Monthly: 15%
+acquisition_window = 21  # Bi-weekly only
 max_workers = 4
 
-# GEE Spatial Assets - REPLACE with YOUR actual assets
+# GEE Assets - UPDATE THESE!
 metro_asset = "projects/your-project/assets/METRO"
 aoi_asset = "projects/your-project/assets/AOI"  # Optional
 
@@ -147,31 +147,22 @@ crs = 'EPSG:32638'
 scale = 10
 dtype = 'float32'
 ```
-### Custom Configuration
+⚠️ Important: You must replace the placeholder values (everything in quotes) with your actual Google Earth Engine credentials and asset paths before running. See the Google Earth Engine documentation for help setting up service accounts.
 
-You can overwrite any default parameter when calling the functions:
+### Override Settings
+
+You can overwrite any parameter directly when calling functions:
 ```python
-# Full customization example
 biweek_VCpy(
-    service_account_email="your-email@yourproject.iam.gserviceaccount.com",
-    service_account_key_file="/path/to/yourcredentials.json",
-    output_path="/custom/output/path",
-    year=2025,
+    output_mode='ndvi',
     start_month=1,
     end_month=6,
-    ndvi_threshold=0.18,
-    cloud_cover_max=30,
-    acquisition_window=21,
-    max_workers=8,
-    output_mode='both',
-    metro_asset="projects/yourproject/assets/custom-region",
-    crs='EPSG:4326',
-    scale=20
+    cloud_cover_max=20
 )
 ```
 ## Output Files
 
-## Monthly Mode
+### Monthly Mode
 
 Generates a single multi-band TIFF file:
 ```text
