@@ -272,7 +272,7 @@ python -m VCpy.cli biweekly \
     --end-month 3 \
     --acquisition-window 25
 ```
-### Understanding Bi-weekly Periods
+## Understanding Bi-weekly Periods
 
 The bi-weekly mode uses overlapping acquisition windows to ensure sufficient cloud-free imagery:
 ```text
