@@ -254,7 +254,7 @@ for year in [2020, 2021, 2022, 2023, 2024]:
     )
 ```
 
-### Example 6: Command Line - Summer Months Only
+### Example 6: Command Line 
 ```bash
 # Process June-August (summer months) with NDVI only
 python -m VCpy.cli monthly \
@@ -264,13 +264,13 @@ python -m VCpy.cli monthly \
     --end-month 8 \
     --cloud-cover-max 35
 
-# Bi-weekly with 30-day acquisition window for cloudy season
+# Bi-weekly with 25-day acquisition window for cloudy season
 python -m VCpy.cli biweekly \
     --year 2024 \
     --output-mode both \
     --start-month 1 \
     --end-month 3 \
-    --acquisition-window 30
+    --acquisition-window 25
 ```
 ### Understanding Bi-weekly Periods
 
