@@ -7,7 +7,7 @@ A powerful Python package for Vegetation Cover analysis using Google Earth Engin
 
 ## Features
 
-- 📅 **Bi-weekly analysis**: Process vegetation cover data in 15-day intervals with configurable acquisition windows
+- 📅 **Bi-weekly analysis**: Process vegetation cover data in 21-day intervals with configurable acquisition windows
 - 📅 **Monthly analysis**: Generate monthly vegetation cover composites
 - 📊 **Flexible output modes**: Export VC only, NDVI only, or both simultaneously
 - ⚡ **Parallel processing**: Utilize multiple workers for faster data acquisition
