@@ -97,7 +97,7 @@ class BiweeklyProcessor(VCProcessor):
         Create bi-weekly periods using pure Python date math.
 
         Periods are numbered from the START OF THE YEAR, not from start_month ->
-        -> bi-weekly acquisition dates can fall on 27-31 of previous month (from 2nd half of the year)!
+        -> bi-weekly acquisition dates can fall on 27-31 of previous month!
         """
         year = self.config['year']
         start_month = self.config['start_month']
