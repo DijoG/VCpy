@@ -96,10 +96,8 @@ class BiweeklyProcessor(VCProcessor):
         """
         Create bi-weekly periods using pure Python date math.
 
-        Periods are numbered from the START OF THE YEAR, not from start_month,
-        so that period 11 always corresponds to June 1st, period 23 to
-        December 1st, etc. This keeps filenames stable across different
-        requested ranges (matching the original hardcoded 01_02 ... 23_24 scheme).
+        Periods are numbered from the START OF THE YEAR, not from start_month ->
+        -> bi-weekly acquisition date can fall on 27-31 of previous month (from 2nd half of the year)!
         """
         year = self.config['year']
         start_month = self.config['start_month']
