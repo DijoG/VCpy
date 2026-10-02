@@ -278,9 +278,11 @@ Bi-weekly periods are 15 days wide and anchor to January 1st of the
 processing year. For each period, Sentinel-2 imagery is collected over
 an **acquisition window** that extends *forward* from the period start:
 
+```text
 Period 1 (Jan 01):  [Jan 01 ─────────── Jan 21]  (21-day window)
 Period 2 (Jan 16):        [Jan 16 ─────────── Feb 05]
 Period 3 (Jan 31):              [Jan 31 ─────────── Feb 20]
+```
 
 With a 21-day window and 15-day period spacing, consecutive windows
 overlap by 6 days. The rule is:
