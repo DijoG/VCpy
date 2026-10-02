@@ -274,21 +274,41 @@ python -m VCpy.cli biweekly \
 ```
 ## Understanding Bi-weekly Periods
 
-The bi-weekly mode uses overlapping acquisition windows to ensure sufficient cloud-free imagery:
-```text
-Period 1 (Jan 01):  [Dec 11 ─────────── Jan 01]  (21-day window)
-Period 2 (Jan 16):        [Dec 26 ─────────── Jan 16]
-Period 3 (Jan 31):              [Jan 10 ─────────── Jan 31]
-```
+Bi-weekly periods are 15 days wide and anchor to January 1st of the
+processing year. For each period, Sentinel-2 imagery is collected over
+an **acquisition window** that extends *forward* from the period start:
+
+Period 1 (Jan 01):  [Jan 01 ─────────── Jan 21]  (21-day window)
+Period 2 (Jan 16):        [Jan 16 ─────────── Feb 05]
+Period 3 (Jan 31):              [Jan 31 ─────────── Feb 20]
+
+With a 21-day window and 15-day period spacing, consecutive windows
+overlap by 6 days. The rule is:
+
+    overlap (days) = acquisition_window − 15
+
+Choosing a window:
+- window < 15  → gaps between periods (imagery can be missed)
+- window = 15  → windows tile exactly, no overlap
+- window > 15  → windows overlap; more images per period
+
 Why overlapping windows?
-- Data availability: More images per period (22-55 images typical)
-- Cloud resilience: Multiple chances to get cloud-free imagery
-- Smooth transitions: Overlapping windows create smoother time series
+
+- **Data availability** — More images per period (typically 20–60 in
+  mid-latitude regions), so a period rarely ends up empty.
+- **Cloud resilience** — Multiple acquisition dates give the cloud mask
+  more chances to find clear pixels.
+- **Smoother time series** — Reduced period-to-period variability.
+
+Caveat: overlapping windows introduce autocorrelation between adjacent
+periods (they share imagery). If you plan statistical tests that assume
+independence across periods, account for this.
 
 Adjusting the window:
-- `--acquisition-window` 14: For cloud-free regions (deserts, arid climates)
-- `--acquisition-window` 21: Default - works for most regions
-- `--acquisition-window` 30: For cloudy regions (tropical, winter months)
+
+- `--acquisition-window 15`: Cloud-free regions (deserts, arid climates)
+- `--acquisition-window 21`: Default — most regions
+- `--acquisition-window 30`: Cloudy regions (tropics, winter months)
 
 ## License
 
